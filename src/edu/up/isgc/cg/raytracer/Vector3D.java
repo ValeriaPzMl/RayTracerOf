@@ -120,4 +120,30 @@ public class Vector3D {
 
         return Vector3D.normalize(refractedDir);
     }
+    public Vector3D rotateX(double angle) {
+        double cosA = Math.cos(angle);
+        double sinA = Math.sin(angle);
+        double yNew = this.getY() * cosA - this.getZ() * sinA;
+        double zNew = this.getY() * sinA + this.getZ() * cosA;
+        return new Vector3D(this.getX(), yNew, zNew);
+    }
+
+    public Vector3D rotateY(double angle) {
+        double cosA = Math.cos(angle);
+        double sinA = Math.sin(angle);
+        double xNew = this.getZ() * sinA + this.getX() * cosA;
+        double zNew = this.getZ() * cosA - this.getX() * sinA;
+        return new Vector3D(xNew, this.getY(), zNew);
+    }
+
+    public Vector3D rotateZ(double angle) {
+        double cosA = Math.cos(angle);
+        double sinA = Math.sin(angle);
+        double xNew = this.getX() * cosA - this.getY() * sinA;
+        double yNew = this.getX() * sinA + this.getY() * cosA;
+        return new Vector3D(xNew, yNew, this.getZ());
+    }
+    public Vector3D scale(double factor) {
+        return new Vector3D(this.getX() * factor, this.getY() * factor, this.getZ() * factor);
+    }
 }

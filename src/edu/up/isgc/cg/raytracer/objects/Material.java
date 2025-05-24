@@ -10,6 +10,7 @@ public class Material {
     private double specularity;   // [0-1] brillo especular (Phong)
     private double shininess;     // Exponente de brillo (ej: 32, 64)
 
+
     public Material(Color diffuse) {
         this(diffuse, 0.0, 0.0, 1.0, 0.5, 32.0);
     }

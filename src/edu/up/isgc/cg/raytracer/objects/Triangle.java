@@ -65,7 +65,7 @@ public class Triangle implements IIntersectable {
         return normals;
     }
 
-    private void setNormals(Vector3D[] normals) {
+    public void setNormals(Vector3D[] normals) {
         this.normals = normals;
     }
 
