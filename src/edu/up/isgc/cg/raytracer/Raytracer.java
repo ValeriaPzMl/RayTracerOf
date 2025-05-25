@@ -25,23 +25,30 @@ public class Raytracer {
         Material luz = new Material(Color.white);
         Material dark = new Material(Color.RED);
         Material setroung = new Material(Color.GREEN, 0, 0.5, 0.6, 0.3, 32.0);
-        Material polishedMetal = new Material(new Color(180, 180, 180), 0.8, 0.0, 1.0, 0.9, 256.0);
-        Material cutGlass = new Material(new Color(200, 255, 255, 150), 0.15, 0.85, 1.5, 0.95, 512.0);
+        Material polishedMetal = new Material(new Color(39, 85, 130), 1.0, 0.6, 1.0, 0.9, 256.0);
+        Material cutGlass = new Material(new Color(108, 232, 232, 150), 0.15, 0.85, 1.5, 0.95, 512.0);
         Material mattePlastic = new Material(Color.BLUE, 0.05, 0.0, 1.0, 0.3, 32.0);
         Material waterFoam = new Material(new Color(80, 160, 255, 200), 0.1, 0.7, 1.33, 0.8, 128.0);
         Material polishedGold = new Material(new Color(255, 215, 0), 0.85, 0.0, 1.0, 0.95, 1024.0);
         Material glacialIce = new Material(new Color(220, 255, 255, 180), 0.25, 0.6, 1.31, 0.9, 256.0);
         Material sciFiEnergy = new Material(new Color(0, 255, 150, 100), 0.4, 0.5, 2.0, 1.0, 2048.0);
         Material rubber = new Material(Color.BLACK, 0.02, 0.0, 1.0, 0.1, 8.0);
+        Material glass = new Material(new Color(200, 255, 255, 150), 0.15, 0.85, 1.5, 0.95, 512.0);
+        Material mirrorMaterial = new Material(new Color(67, 115, 89), 0.95, 0.0, 1.0, 1.0, 1024.0);
 
-        scene01.setCamera(new Camera(new Vector3D(0, 0, -4), 60, 60,
-                800, 800, 0.6, 50.0));
-        scene01.addLight(new DirectionalLight(new Vector3D(0,0,1),luz,1.0));
-        scene01.addLight(new PointLight(new Vector3D(0,0,4),luz,1.0));
-        scene01.addLight(new PointLight(new Vector3D(0,2,4),luz,1.0));
-        scene01.addObject(OBJReader.getModel3D("SmallTeapot.obj",new Vector3D(0,0,5),glacialIce,0.5,0,0,0));
-        scene01.addObject(OBJReader.getModel3D("espada_com_material.obj",new Vector3D(0,0,8),polishedMetal,1.0,0,0,0));
+        //Scene 1
+        scene01.setCamera(new Camera(new Vector3D(0, 0, -4), 45, 82,2160, 4096, 0.6, 50.0));
+        scene01.addLight(new PointLight(new Vector3D(0,-1,-1),luz,1.0));
+        scene01.addLight(new PointLight(new Vector3D(0,0,0),luz,1.0));
+        scene01.addObject(OBJReader.getModel3D("water.obj",new Vector3D(0,-3,1),waterFoam,13.0,0,45,0));
+        scene01.addObject(OBJReader.getModel3D("Cube.obj",new Vector3D(0,-6.5,11),mirrorMaterial,15.0,0,0,0));
+        scene01.addObject(OBJReader.getModel3D("Trident.obj",new Vector3D(0,1,1),cutGlass,10.0,0,0,0));
+        scene01.addObject(OBJReader.getModel3D("seahorse.obj",new Vector3D(1,0,1),polishedGold,1.0,0,180,0));
+        scene01.addObject(OBJReader.getModel3D("seahorse.obj",new Vector3D(-1,0,1),polishedGold,1.0,0,0,0));
 
+        //Scene 2
+        Scene scene02 = new Scene();
+        scene02.setCamera(new Camera(new Vector3D(0, 0, -4), 82, 45,409, 216, 0.6, 50.0));
 
         BufferedImage image = raytrace(scene01);
         File outputImage = new File("image.png");
@@ -236,10 +243,9 @@ public class Raytracer {
         } else if (light instanceof DirectionalLight) {
             DirectionalLight dirLight = (DirectionalLight) light;
             lightDir = Vector3D.scalarMultiplication(dirLight.getDirection(), -1.0); // Invertir dirección
-        } else {
-            return false; // Tipo de luz no soportado
+        } else{
+            return false;
         }
-
         // Offset para evitar auto-oclusión
         Vector3D shadowOrig = Vector3D.add(hitPoint, Vector3D.scalarMultiplication(normal, 1e-5));
         Ray shadowRay = new Ray(shadowOrig, lightDir);

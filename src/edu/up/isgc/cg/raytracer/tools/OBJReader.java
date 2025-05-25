@@ -32,6 +32,7 @@ public abstract class OBJReader {
             Map<Integer, List<Triangle>> smoothingMap = new HashMap<>();
 
             while ((line = reader.readLine()) != null) {
+                // Dentro del loop while ((line = reader.readLine()) != null)
                 if (line.startsWith("v ") || line.startsWith("vn ")) {
                     String[] vertexComponents = line.split("(\\s)+");
                     if (vertexComponents.length >= 4) {
@@ -40,16 +41,21 @@ public abstract class OBJReader {
                         double z = Double.parseDouble(vertexComponents[3]);
                         Vector3D vector = new Vector3D(x, y, z);
                         if (line.startsWith("v ")) {
+                            // Aplicar rotación y escala a VÉRTICES
                             vector = vector.rotateX(Math.toRadians(rotX))
                                     .rotateY(Math.toRadians(rotY))
                                     .rotateZ(Math.toRadians(rotZ))
                                     .scale(scale);
                             vertices.add(vector);
                         } else {
+                            // Aplicar SOLO ROTACIÓN a NORMALES (sin escala)
+                            vector = Vector3D.normalize(vector.rotateX(Math.toRadians(rotX))
+                                    .rotateY(Math.toRadians(rotY))
+                                    .rotateZ(Math.toRadians(rotZ)));
                             normals.add(vector);
                         }
                     }
-                } else if (line.startsWith("f ")) {
+                }else if (line.startsWith("f ")) {
                     String[] faceComponents = line.split("(\\s)+");
                     List<Integer> faceVertex = new ArrayList<Integer>();
                     List<Integer> faceNormal = new ArrayList<Integer>();
