@@ -16,30 +16,47 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
+import java.util.concurrent.atomic.AtomicInteger;
 //scene01.setCamera(new Camera(new Vector3D(0, 0, -4), 82, 45,4096, 2160, 0.6, 50.0));
 public class Raytracer {
     public static void main(String[] args) {
         System.out.println(new Date());
         Scene scene01 = new Scene();
         Material luz = new Material(Color.white);
+        Material luz01 = new Material(new Color(209, 230, 123));
+        Material luz02 = new Material(new Color(93, 188, 5));
+        Material luz03 = new Material(new Color(9, 153, 255));
+        Material luz04 = new Material(new Color(225, 237, 63));
+        Material luz05 = new Material(new Color(123, 230, 137));
+        Material luz06 = new Material(new Color(84, 192, 243));
+
         Material dark = new Material(Color.RED);
         Material setroung = new Material(Color.GREEN, 0, 0.5, 0.6, 0.3, 32.0);
         Material polishedMetal = new Material(new Color(39, 85, 130), 1.0, 0.6, 1.0, 0.9, 256.0);
         Material cutGlass = new Material(new Color(108, 232, 232, 150), 0.15, 0.85, 1.5, 0.95, 512.0);
         Material mattePlastic = new Material(Color.BLUE, 0.05, 0.0, 1.0, 0.3, 32.0);
+        Material handMat = new Material(new Color(144, 185, 232, 200), 0.1, 0.7, 1.33, 0.8, 128.0);
+        Material Glass = new Material(new Color(171, 234, 234, 150), 0.15, 0.90, 1.5, 0.95, 128.0);
+
         Material waterFoam = new Material(new Color(80, 160, 255, 200), 0.1, 0.7, 1.33, 0.8, 128.0);
         Material polishedGold = new Material(new Color(255, 215, 0), 0.85, 0.0, 1.0, 0.95, 1024.0);
-        Material glacialIce = new Material(new Color(220, 255, 255, 180), 0.25, 0.6, 1.31, 0.9, 256.0);
+        Material glacialIce = new Material(new Color(248, 246, 77), 0.5, 0.8, 1.31, 0.9, 1024.0);
         Material sciFiEnergy = new Material(new Color(0, 255, 150, 100), 0.4, 0.5, 2.0, 1.0, 2048.0);
-        Material rubber = new Material(Color.BLACK, 0.02, 0.0, 1.0, 0.1, 8.0);
-        Material glass = new Material(new Color(200, 255, 255, 150), 0.15, 0.85, 1.5, 0.95, 512.0);
-        Material mirrorMaterial = new Material(new Color(67, 115, 89), 0.95, 0.0, 1.0, 1.0, 1024.0);
+        Material rubber = new Material(new Color(239, 239, 207), 0.02, 0.0, 1.0, 0.1, 8.0);
+        Material glass = new Material(new Color(190, 255, 255, 150), 0.19, 0.92, 1.3, 0.95, 512.0);
+        Material mirrorMaterial = new Material(new Color(233, 253, 251), 0.95, 0.0, 1.0, 1.0, 1024.0);
+        Material skullMaterial = new Material(new Color(255, 255, 255), 0.95, 0.1, 1.0, 1.0, 1024.0);
+        Material sciFiEnergy02 = new Material(new Color(202, 239, 36, 129), 0.95, 0.0, 1.0, 1.0, 2048.0);
+        Material mirrorMaterial02 = new Material(new Color(130, 244, 236), 0.95, 0.0, 1.8, 0.8, 1024.0);
+        Material perfectMirror = new Material(new Color(100, 100, 100),1.0,0.0,1.0,1.0,1024.0);
+
 
         //Scene 1
-        scene01.setCamera(new Camera(new Vector3D(0, 0, -4), 45, 82,2160, 4096, 0.6, 50.0));
-        scene01.addLight(new PointLight(new Vector3D(0,-1,-1),luz,1.0));
-        scene01.addLight(new PointLight(new Vector3D(0,0,0),luz,1.0));
+        scene01.setCamera(new Camera(new Vector3D(0, 0, -3), 45, 82,2160, 4096, 0.6, 50.0));
+        scene01.addLight(new PointLight(new Vector3D(0,-1,-1),luz,2.5));
+        scene01.addLight(new PointLight(new Vector3D(0,0,0),luz,2.5));
+        scene01.addLight(new PointLight(new Vector3D(1.5,1,0),luz03,3.0));
+        scene01.addLight(new PointLight(new Vector3D(-1.5,1,0),luz03,3.0));
         scene01.addObject(OBJReader.getModel3D("water.obj",new Vector3D(0,-3,1),waterFoam,13.0,0,45,0));
         scene01.addObject(OBJReader.getModel3D("Cube.obj",new Vector3D(0,-6.5,11),mirrorMaterial,15.0,0,0,0));
         scene01.addObject(OBJReader.getModel3D("Trident.obj",new Vector3D(0,1,1),cutGlass,10.0,0,0,0));
@@ -48,12 +65,57 @@ public class Raytracer {
 
         //Scene 2
         Scene scene02 = new Scene();
-        scene02.setCamera(new Camera(new Vector3D(0, 0, -4), 82, 45,409, 216, 0.6, 50.0));
+        scene02.setCamera(new Camera(new Vector3D(0, 0, -4), 82, 45,4096, 2160, 0.0, 50.0));
+        scene02.addLight(new PointLight(new Vector3D(-1.1,-0.5,-1.0),luz02,7.0));
+        scene02.addLight(new PointLight(new Vector3D(-1.1,0.5,-1.0),luz01,7));
+        scene02.addLight(new PointLight(new Vector3D(1.1,-0.5,-1.0),luz02,7));
+        scene02.addLight(new PointLight(new Vector3D(1.1,0.5,-1.0),luz01,7));
+        scene02.addLight(new PointLight(new Vector3D(1.7,0.5,1.0),luz,7));
+        scene02.addLight(new PointLight(new Vector3D(-1.7,0.5,1.0),luz,7));
+        scene02.addObject(OBJReader.getModel3D("Skull1.obj",new Vector3D(1.7,0.4,-0.5),skullMaterial,1.5,0,225,0));
+        scene02.addObject(OBJReader.getModel3D("Skull1.obj",new Vector3D(-1.7,0.4,-0.5),skullMaterial,1.5,0,135,0));
+        scene02.addObject(OBJReader.getModel3D("Skull1.obj",new Vector3D(0.0,0.95,2.7),sciFiEnergy,1.4,5,180,0));
+        scene02.addObject(OBJReader.getModel3D("helmet01.obj",new Vector3D(0,-19.3,2.5),glass,1.0,0,180,0));
 
-        BufferedImage image = raytrace(scene01);
-        File outputImage = new File("image.png");
+
+        //Scene 3
+        Scene scene03 = new Scene();
+        scene03.setCamera(new Camera(new Vector3D(0, 0, -4), 45, 82,2160, 4096, 0.0, 50.0));
+        scene03.addObject(OBJReader.getModel3D("bowoflight.obj",new Vector3D(1,0,3),polishedGold,4,90,180,0));
+        scene03.addObject(OBJReader.getModel3D("bowoflight.obj",new Vector3D(-1,0,3),polishedGold,4,90,0,0));
+        scene03.addObject(OBJReader.getModel3D("Cube.obj",new Vector3D(0,-7.5,12),rubber,15.0,0,0,0));
+        scene03.addObject(OBJReader.getModel3D("Cube.obj",new Vector3D(-1,-0.5,0),glass,1,0,0,0));
+        scene03.addObject(OBJReader.getModel3D("Cube.obj",new Vector3D(1,-1.5,6),perfectMirror,3,0,30,0));
+        scene03.addLight(new PointLight(new Vector3D(0,-2,-1),luz04,1.1));
+        scene03.addLight(new PointLight(new Vector3D(0,2,-1),luz,1.1));
+
+
+
+        //image 1
+        BufferedImage image01 = raytrace(scene01);
+        File outputImage01 = new File("image01.png");
         try {
-            ImageIO.write(image, "png", outputImage);
+            ImageIO.write(image01, "png", outputImage01);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(new Date());
+
+        //image 2
+        BufferedImage image02 = raytrace(scene02);
+        File outputImage02 = new File("image02.png");
+        try {
+            ImageIO.write(image02, "png", outputImage02);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(new Date());
+
+        //image 3
+        BufferedImage image03 = raytrace(scene03);
+        File outputImage03 = new File("image03.png");
+        try {
+            ImageIO.write(image03, "png", outputImage03);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -76,25 +138,34 @@ public class Raytracer {
 
         Vector3D[][] posRaytrace = mainCamera.calculatePositionsToRay();
         int height = posRaytrace.length;
+        int width = posRaytrace[0].length;
+
+        // Variables para el progreso
+        AtomicInteger completedRows = new AtomicInteger(0);
+        int totalRows = height;
+        int progressStep = Math.max(1, totalRows / 50);
 
         // Dividir el trabajo por filas
         for (int i = 0; i < height; i++) {
             final int row = i;
             executor.submit(() -> {
                 for (int j = 0; j < posRaytrace[row].length; j++) {
-                    // Cálculo del color del píxel (igual que antes)
                     Vector3D rayDir = Vector3D.normalize(Vector3D.substract(
                             Vector3D.add(mainCamera.getPosition(), posRaytrace[row][j]),
                             mainCamera.getPosition()
                     ));
                     Ray primaryRay = new Ray(mainCamera.getPosition(), rayDir);
                     Color pixelColor = traceRay(scene, primaryRay, maxDepth);
-                    image.setRGB(row, j, pixelColor.getRGB());
+                    image.setRGB(row,j, pixelColor.getRGB());
+                }
+
+                // Actualizar progreso
+                int current = completedRows.incrementAndGet();
+                if (current % progressStep == 0 || current == totalRows) {
+                    double progress = (current * 100.0) / totalRows;
+                    System.out.printf("Progress: %.1f%% (%d/%d row)%n", progress, current, totalRows);
                 }
             });
-            if(i%200==0) {
-                //System.out.printf("%" + (i / height * 100));
-            }
         }
 
         executor.shutdown();
