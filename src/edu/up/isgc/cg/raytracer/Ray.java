@@ -1,9 +1,20 @@
 package edu.up.isgc.cg.raytracer;
-
+/**
+ * @author Valeria Pérez Maciel , Jafet Rodríguez and Bernardo Moya
+ *
+ * Represents a ray in 3D space with an origin and a direction.
+ * Commonly used in ray tracing to determine intersections with objects.
+ */
 public class Ray {
     private Vector3D origin;
     private Vector3D direction;
 
+    /**
+     * Constructs a Ray with a given origin and direction.
+     *
+     * @param origin The starting point of the ray.
+     * @param direction The direction in which the ray travels.
+     */
     public Ray(Vector3D origin, Vector3D direction) {
         setOrigin(origin);
         setDirection(direction);

@@ -5,7 +5,6 @@ import edu.up.isgc.cg.raytracer.objects.Material;
 import edu.up.isgc.cg.raytracer.objects.Model3D;
 import edu.up.isgc.cg.raytracer.objects.Triangle;
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,9 +15,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ * @author Valeria Pérez Maciel , Jafet Rodríguez and Bernardo Moya
+ *
+ * Utility class for reading 3D models from Wavefront OBJ files and converting them
+ * into a Model3D object compatible with the ray tracer.
+ *
+ * This class is abstract and not meant to be instantiated.
+ */
 public abstract class OBJReader {
-
+    /**
+     * Reads a Wavefront .OBJ file and constructs a Model3D object.
+     * Applies scaling and rotation transformations to vertices and normals.
+     *
+     * @param path The file path to the .obj model.
+     * @param origin The origin position of the model in world coordinates.
+     * @param material The material to apply to all the triangles of the model.
+     * @param scale The scale factor to apply to all vertex positions.
+     * @param rotX Rotation angle around the X-axis in degrees.
+     * @param rotY Rotation angle around the Y-axis in degrees.
+     * @param rotZ Rotation angle around the Z-axis in degrees.
+     * @return A Model3D object representing the parsed and transformed model, or null if an error occurs.
+     */
     public static Model3D getModel3D(String path, Vector3D origin, Material material, double scale, double rotX, double rotY, double rotZ) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(path));
@@ -32,7 +50,6 @@ public abstract class OBJReader {
             Map<Integer, List<Triangle>> smoothingMap = new HashMap<>();
 
             while ((line = reader.readLine()) != null) {
-                // Dentro del loop while ((line = reader.readLine()) != null)
                 if (line.startsWith("v ") || line.startsWith("vn ")) {
                     String[] vertexComponents = line.split("(\\s)+");
                     if (vertexComponents.length >= 4) {
@@ -41,14 +58,12 @@ public abstract class OBJReader {
                         double z = Double.parseDouble(vertexComponents[3]);
                         Vector3D vector = new Vector3D(x, y, z);
                         if (line.startsWith("v ")) {
-                            // Aplicar rotación y escala a VÉRTICES
                             vector = vector.rotateX(Math.toRadians(rotX))
                                     .rotateY(Math.toRadians(rotY))
                                     .rotateZ(Math.toRadians(rotZ))
                                     .scale(scale);
                             vertices.add(vector);
                         } else {
-                            // Aplicar SOLO ROTACIÓN a NORMALES (sin escala)
                             vector = Vector3D.normalize(vector.rotateX(Math.toRadians(rotX))
                                     .rotateY(Math.toRadians(rotY))
                                     .rotateZ(Math.toRadians(rotZ)));

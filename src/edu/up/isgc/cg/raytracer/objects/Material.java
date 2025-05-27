@@ -1,20 +1,44 @@
 package edu.up.isgc.cg.raytracer.objects;
 
 import java.awt.*;
-
+/**
+ * @author Valeria Pérez Maciel
+ *
+ * Represents the physical and optical properties of a surface material used in ray tracing.
+ * Includes parameters for diffuse color, reflectance, transparency, refraction, and specular highlights.
+ */
 public class Material {
     private Color diffuseColor;
-    private double reflectance;    // [0-1] coeficiente de reflexión (ej: espejo=1.0)
-    private double transparency;  // [0-1] coeficiente de transparencia (ej: vidrio=1.0)
-    private double refractiveIndex; // Índice de refracción (aire=1.0, vidrio=1.5, agua=1.33)
-    private double specularity;   // [0-1] brillo especular (Phong)
-    private double shininess;     // Exponente de brillo (ej: 32, 64)
+    private double reflectance;
+    private double transparency;
+    private double refractiveIndex;
+    private double specularity;
+    private double shininess;
 
-
+    /**
+     * Constructs a Material with only a diffuse color.
+     * Sets default values for other optical properties:
+     * - reflectance = 0.0
+     * - transparency = 0.0
+     * - refractiveIndex = 1.0 (air)
+     * - specularity = 0.5
+     * - shininess = 32.0
+     *
+     * @param diffuse The base color of the material.
+     */
     public Material(Color diffuse) {
         this(diffuse, 0.0, 0.0, 1.0, 0.5, 32.0);
     }
-
+    /**
+     * Constructs a Material with full specification of all surface properties.
+     *
+     * @param diffuse The base color of the material.
+     * @param reflectance The reflectivity coefficient [0.0–1.0].
+     * @param transparency The transparency coefficient [0.0–1.0].
+     * @param refractiveIndex The index of refraction (e.g., air=1.0, glass=1.5).
+     * @param specularity The intensity of specular highlights [0.0–1.0].
+     * @param shininess The shininess exponent (e.g., 32, 64) used in Phong lighting.
+     */
     public Material(Color diffuse, double reflectance, double transparency,
                     double refractiveIndex, double specularity, double shininess) {
         setDiffuseColor(diffuse);

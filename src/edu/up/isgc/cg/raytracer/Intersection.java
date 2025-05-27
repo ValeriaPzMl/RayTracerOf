@@ -1,7 +1,13 @@
 package edu.up.isgc.cg.raytracer;
 
 import edu.up.isgc.cg.raytracer.objects.Object3D;
-
+/**
+ * @author Valeria Pérez Maciel , Jafet Rodríguez and Bernardo Moya
+ *
+ * Represents the result of a ray-object intersection in 3D space.
+ * Stores information about the intersection point, the surface normal at that point,
+ * the distance from the ray origin, and the object that was hit.
+ */
 public class Intersection {
 
     private double distance;
@@ -9,6 +15,14 @@ public class Intersection {
     private Vector3D normal;
     private Object3D object;
 
+    /**
+     * Constructs an Intersection with the given properties.
+     *
+     * @param position The 3D point where the intersection occurred.
+     * @param distance The distance from the ray origin to the intersection point.
+     * @param normal The surface normal at the intersection point.
+     * @param object The object that the ray intersected with.
+     */
     public Intersection(Vector3D position, double distance, Vector3D normal, Object3D object) {
         setPosition(position);
         setDistance(distance);

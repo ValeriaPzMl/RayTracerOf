@@ -6,8 +6,17 @@ import edu.up.isgc.cg.raytracer.objects.Camera;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Valeria Pérez Maciel , Jafet Rodríguez and Bernardo Moya
+ *
+ * Represents a 3D scene in the ray tracing engine, containing a camera, a list of objects,
+ * and a list of light sources. It also supports gamma correction for color output adjustment.
+ *
+ * The scene is responsible for storing all renderable elements and light sources that
+ * participate in the ray tracing process.
+ */
 public class Scene {
+    private float gammaCorrection = 1.0f;
     private Camera camera;
     private List<Object3D> objects;
     private List<Light> lights;
@@ -15,6 +24,14 @@ public class Scene {
     public Scene() {
         setObjects(new ArrayList<>());
         setLights(new ArrayList<>());
+    }
+
+    public float getGammaCorrection() {
+        return gammaCorrection;
+    }
+
+    public void setGammaCorrection(float gammaCorrection) {
+        this.gammaCorrection = gammaCorrection;
     }
 
     public Camera getCamera() {

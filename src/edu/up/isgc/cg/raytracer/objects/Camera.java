@@ -4,8 +4,14 @@ import edu.up.isgc.cg.raytracer.Intersection;
 import edu.up.isgc.cg.raytracer.Ray;
 import edu.up.isgc.cg.raytracer.Vector3D;
 
-import java.awt.*;
 
+/**
+ * @author Valeria Pérez Maciel , Jafet Rodríguez and Bernardo Moya
+ *
+ * Represents a virtual camera in a 3D scene for ray tracing.
+ * The camera defines field of view, resolution, depth range (near/far planes),
+ * and is used to generate ray directions for each pixel on the image plane.
+ */
 public class Camera extends Object3D {
     //FOV[0] = Horizontal | FOV[1] = Vertical
     private double[] fieldOfView = new double[2];
@@ -13,6 +19,17 @@ public class Camera extends Object3D {
     private int[] resolution = new int[2];
     private double[] nearFarPlanes = new double[2];
 
+    /**
+     * Constructs a Camera with position, field of view, resolution, and depth range.
+     *
+     * @param position The position of the camera in world space.
+     * @param fovH The horizontal field of view in degrees.
+     * @param fovV The vertical field of view in degrees.
+     * @param width The width of the resolution in pixels.
+     * @param height The height of the resolution in pixels.
+     * @param nearPlane The near clipping plane distance.
+     * @param farPlane The far clipping plane distance.
+     */
     public Camera(Vector3D position, double fovH, double fovV,
                   int width, int height, double nearPlane, double farPlane) {
         super(position, null);
@@ -95,7 +112,13 @@ public class Camera extends Object3D {
         this.nearFarPlanes = nearFarPlanes;
     }
 
-
+    /**
+     * Computes a 2D array of 3D positions corresponding to each pixel in the image plane.
+     * These positions are calculated based on the field of view and resolution and are
+     * used as target points to generate rays from the camera.
+     *
+     * @return A 2D array of Vector3D representing positions in 3D space for ray generation.
+     */
     public Vector3D[][] calculatePositionsToRay() {
         double angleMaxX = getFOVHorizontal() / 2.0;
         double radiusMaxX = getDefaultZ() / Math.cos(Math.toRadians(angleMaxX));
@@ -123,7 +146,13 @@ public class Camera extends Object3D {
         }
         return positions;
     }
-
+    /**
+     * Returns a default non-intersecting result. This method is required by the
+     * Object3D hierarchy but the camera does not participate in intersections.
+     *
+     * @param ray The ray to check against the camera (unused).
+     * @return An Intersection with distance -1, indicating no intersection.
+     */
     @Override
     public Intersection getIntersection(Ray ray) {
         return new Intersection(Vector3D.ZERO(), -1, Vector3D.ZERO(), null);
